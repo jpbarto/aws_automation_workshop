@@ -1,0 +1,27 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Deny",
+            "NotAction": [
+                "aws-portal:*",
+                "iam:*",
+                "s3:get*",
+                "s3:list*",
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "eu-west-1",
+                        "eu-west-2",
+                        "eu-central-1"
+                    ]
+                }
+            }
+        }
+    ]
+}
