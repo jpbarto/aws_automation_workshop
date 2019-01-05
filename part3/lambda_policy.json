@@ -1,0 +1,26 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "iam:AttachUserPolicy",
+                "iam:AttachRolePolicy",
+                "logs:PutLogEvents"
+            ],
+            "Resource": [
+                "arn:aws:iam::*:user/*",
+                "arn:aws:iam::*:role/*",
+                "arn:aws:logs:us-east-1:776347453069:log-group:/aws/lambda/PolicyEnforcement:*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": "logs:CreateLogGroup",
+            "Resource": "arn:aws:logs:us-east-1:776347453069:*"
+        }
+    ]
+}
