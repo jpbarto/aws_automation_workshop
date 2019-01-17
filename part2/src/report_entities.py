@@ -1,10 +1,11 @@
 import boto3
 import json
+import os
 
 iam = boto3.client ('iam')
 sns = boto3.client ('sns')
 
-topic_arn = 'arn:aws:sns:eu-west-2:776347453069:iam_compliance_topic'
+topic_arn = os.environ['topic_arn']
 policy_arn = 'arn:aws:iam::776347453069:policy/ManagedPolicy'
 
 print ("Searching for entities that do NOT have the following policy attached:")
