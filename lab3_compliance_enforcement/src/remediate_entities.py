@@ -8,10 +8,6 @@ def remediate_role (rolename):
     iam.attach_role_policy (RoleName = rolename, PolicyArn = policy_arn)
     return True
 
-def remediate_user (username):
-    iam.attach_user_policy (UserName = username, PolicyArn = policy_arn)
-    return True
-
 def handler (event, context):
     print ("Processing event: {}".format (event))
     
@@ -30,12 +26,8 @@ def handler (event, context):
         rolename = event_detail['requestParameters']['roleName']
         report['RoleName'] = rolename
         report['Enforced'] = remediate_role (rolename)
-    elif 'eventName' in event_detail and event_detail['eventName'] == 'CreateUser':
-        username = event_detail['requestParameters']['userName']
-        report['Username'] = username
-        report['Enforced'] = remediate_user (username)
     else:
-        report['Reason'] = 'No user or role creation found'
+        report['Reason'] = 'No role creation found'
         
     print (report)
 
