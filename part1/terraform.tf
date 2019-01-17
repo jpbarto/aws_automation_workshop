@@ -1,3 +1,15 @@
+provider "aws" {
+    region = "us-east-1"
+}
+
+resource "aws_iam_role_policy" "policy_enforcement_policy" {
+  name       = "RegionRestrictionPolicy"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -6,7 +18,7 @@
             "NotAction": [
                 "aws-portal:*",
                 "iam:*",
-                "s3:get*",
+                "s3:read*",
                 "s3:list*",
                 "support:*",
                 "sts:*"
@@ -23,4 +35,6 @@
             }
         }
     ]
+}
+EOF
 }
