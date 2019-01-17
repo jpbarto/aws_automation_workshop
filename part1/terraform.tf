@@ -2,7 +2,7 @@ provider "aws" {
     region = "us-east-1"
 }
 
-resource "aws_iam_role_policy" "policy_enforcement_policy" {
+resource "aws_iam_policy" "region_restriction_policy" {
   name       = "RegionRestrictionPolicy"
 
   lifecycle {
