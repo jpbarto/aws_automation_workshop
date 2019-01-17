@@ -93,14 +93,3 @@ resource "aws_iam_role_policy" "entity_report_policy" {
 }
 EOF
 }
-
-resource "aws_cloudwatch_event_rule" "run_entity_compliance_report" {
-  name        = "RunEntityComplianceReport"
-  description = "Report nightly on entity compliance"
-  schedule_expression = "cron(0 2 * * ? *)"
-}
-
-resource "aws_cloudwatch_event_target" "lambda" {
-  rule      = "${aws_cloudwatch_event_rule.run_entity_compliance_report.name}"
-  arn       = "${aws_lambda_function.entity_report_function.arn}"
-}
