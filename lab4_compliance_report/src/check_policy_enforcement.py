@@ -16,22 +16,6 @@ policy_arn = 'arn:aws:iam::776347453069:policy/ManagedPolicy'
 def is_scheduled (event):
     return (event['messageType'] == 'ScheduledNotification')
     
-def get_user_policies (username, marker = None):
-    policies = []
-    if marker is None:
-        policy_resp = iam.list_attached_user_policies (UserName = username, MaxItems = 100)
-    else:
-        policy_resp = iam.list_attached_user_policies (UserName = username, MaxItems = 100, Marker = marker)
-        marker = None
-
-    for policy in policy_resp['AttachedPolicies']:
-        policies.append (policy['PolicyArn'])
-
-    if 'IsTruncated' in policy_resp and policy_resp['IsTruncated']:
-        marker = policy_resp['Marker']
-
-    return (policies, marker)
-    
 def get_role_policies (rolename, marker = None):
     policies = []
     if marker is None:
@@ -48,20 +32,6 @@ def get_role_policies (rolename, marker = None):
 
     return (policies, marker)
 
-# Evaluates the configuration items in the snapshot and returns the compliance value to the handler.
-def evaluate_user (username):
-    user_policies = []
-    
-    (user_policies, marker) = get_user_policies (username)
-    while marker is not None:
-        (policies, marker) = get_user_policies (username, marker = marker)
-        user_policies += policies
-
-    if policy_arn in user_policies:
-        return COMPLIANCE_STATES['COMPLIANT']
-            
-    return COMPLIANCE_STATES['NON_COMPLIANT']
-    
 def evaluate_role (rolename):
     role_policies = []
     
@@ -75,19 +45,6 @@ def evaluate_role (rolename):
             
     return COMPLIANCE_STATES['NON_COMPLIANT']
 
-def get_users ():
-    token = None
-    resources = []
-    
-    (rsrcs, token) = get_resources ('AWS::IAM::User', next_token = token)
-    resources += rsrcs
-    
-    while token is not None:
-        (rsrcs, token) = get_resources ('AWS::IAM::User', next_token = token)
-        resources += rsrcs
-        
-    return resources
-    
 def get_roles ():
     token = None
     resources = []
@@ -139,16 +96,6 @@ def handler (event, context):
         evaluations = []
         eval_time = datetime.now ()
         
-        users = get_users ()
-        for user in users:
-            compliance = evaluate_user (user['resourceName'])
-            evaluations.append ({
-                'ComplianceResourceType': user['resourceType'],
-                'ComplianceResourceId': user['resourceId'],
-                'ComplianceType': compliance,
-                'OrderingTimestamp': eval_time
-            })
-            
         roles = get_roles ()
         for role in roles:
             compliance = evaluate_role (role['resourceName'])
@@ -165,7 +112,7 @@ def handler (event, context):
                 ResultToken = result_token
                 )
         
-        return_message = "Evaluationed {} users and {} roles".format (len(users), len(roles))
+        return_message = "Evaluationed {} roles".format (len(roles))
 
     print (return_message)
     return return_message
