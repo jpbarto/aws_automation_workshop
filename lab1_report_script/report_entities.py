@@ -1,7 +1,7 @@
 import boto3
 
 iam = boto3.client ('iam')
-policy_arn = 'arn:aws:iam::776347453069:policy/ManagedPolicy'
+policy_arn = 'arn:aws:iam::012345678901:policy/ManagedPolicy'
 
 print ("Searching for entities that do NOT have the following policy attached:")
 print (policy_arn)
