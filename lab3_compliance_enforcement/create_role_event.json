@@ -1,0 +1,58 @@
+{
+    "version": "0",
+    "id": "1a666432-2bf9-c8e5-948f-3f3c1c338dab",
+    "detail-type": "AWS API Call via CloudTrail",
+    "source": "aws.iam",
+    "account": "012345678901",
+    "time": "2019-01-04T22:16:11Z",
+    "region": "us-east-1",
+    "resources": [],
+    "detail": {
+        "eventVersion": "1.05",
+        "userIdentity": {
+            "type": "AssumedRole",
+            "principalId": "AROAIQS4NNAGDGFJDRILY:user",
+            "arn": "arn:aws:sts::012345678901:assumed-role/OrganizationAccountAccessRole/user",
+            "accountId": "012345678901",
+            "accessKeyId": "ABCDEFGHIJKLMNOPQRST",
+            "sessionContext": {
+                "attributes": {
+                    "mfaAuthenticated": "true",
+                    "creationDate": "2019-01-04T22:07:06Z"
+                },
+                "sessionIssuer": {
+                    "type": "Role",
+                    "principalId": "AROAIQSASFEFEGFJDRILY",
+                    "arn": "arn:aws:iam::012345678901:role/OrganizationAccountAccessRole",
+                    "accountId": "012345678901",
+                    "userName": "OrganizationAccountAccessRole"
+                }
+            }
+        },
+        "eventTime": "2019-01-04T22:16:11Z",
+        "eventSource": "iam.amazonaws.com",
+        "eventName": "CreateRole",
+        "awsRegion": "us-east-1",
+        "sourceIPAddress": "5.56.50.221",
+        "userAgent": "console.amazonaws.com",
+        "requestParameters": {
+            "roleName": "abc-role",
+            "description": "Allows EC2 instances to call AWS services on your behalf.",
+            "assumeRolePolicyDocument": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"sts:AssumeRole\"],\"Principal\":{\"Service\":[\"ec2.amazonaws.com\"]}}]}",
+            "tags": []
+        },
+        "responseElements": {
+            "role": {
+                "assumeRolePolicyDocument": "%7B%22Version%22%3A%222012-10-17%22%2C%22Statement%22%3A%5B%7B%22Effect%22%3A%22Allow%22%2C%22Action%22%3A%5B%22sts%3AAssumeRole%22%5D%2C%22Principal%22%3A%7B%22Service%22%3A%5B%22ec2.amazonaws.com%22%5D%7D%7D%5D%7D",
+                "arn": "arn:aws:iam::012345678901:role/abc-role",
+                "roleId": "AROAIGMKYDYYSZWRD37ZM",
+                "createDate": "Jan 4, 2019 10:16:11 PM",
+                "roleName": "abc-role",
+                "path": "/"
+            }
+        },
+        "requestID": "57c7f5b0-106e-11e9-875f-0bb36ec8e4ef",
+        "eventID": "ee068113-0965-48a5-a34f-e889e7411bb6",
+        "eventType": "AwsApiCall"
+    }
+}
