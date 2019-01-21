@@ -56,42 +56,7 @@ resource "aws_iam_role_policy" "entity_report_policy" {
     create_before_destroy = true
   }
 
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "logs:CreateLogStream",
-                "sns:Publish",
-                "iam:ListAttachedRolePolicies",
-                "logs:PutLogEvents"
-            ],
-            "Resource": [
-                "arn:aws:logs:*:*:log-group:*",
-                "arn:aws:iam::*:role/*",
-                "arn:aws:sns:*:*:*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "config:ListDiscoveredResources",
-                "iam:ListRoles",
-                "config:PutEvaluations",
-                "logs:CreateLogGroup"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "logs:PutLogEvents",
-            "Resource": "arn:aws:logs:*:*:log-group:*:*:*"
-        }
-    ]
-}
-EOF
+  policy = "${file("report_policy.json")}"
 }
 
 resource "aws_cloudwatch_event_rule" "run_entity_compliance_report" {
