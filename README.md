@@ -27,3 +27,17 @@ As a final wrap up a Terraform template is maintained at each stage to deploy th
 
 ### Part 5
 1. Publish the Config Rule and auto-compliance Lambda into every AWS account and region
+
+
+## Getting started
+1. To get started sign into the AWS console and visit the [Cloud9 console](https://eu-west-1.console.aws.amazon.com/cloud9/home?region=eu-west-1#)
+1. Click `Launch IDE` from the console.
+1. When the IDE opens click in the Terminal on the lower half of the IDE.  Execute the following:
+```bash
+$ wget https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip
+$ unzip terraform_0.11.11_linux_amd64.zip 
+$ sudo mv terraform /usr/local/bin
+$ terraform -h
+```
+
+Now move on to Part 1.
