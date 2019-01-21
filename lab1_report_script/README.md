@@ -4,6 +4,7 @@
 In this lab you will create an IAM policy using Terraform.  Then you will run a Python script to call the AWS APIs and list all roles that do not have the policy assigned to it.
 
 ## Steps
+---
 ### By hand
 1. Sign into the AWS console and access the `IAM` console
 1. Click `Policies` from the left-hand menu
@@ -24,6 +25,7 @@ $ python report_entities.py
 
 > Note: notice the script should report that **ALL** roles are not compliant.  To make them compliant feel free to attach your new policy to some of the roles and re-run the script.
 
+---
 ### Using Terraform
 1. Push a managed IAM policy into your AWS account using Terraform
 
@@ -32,10 +34,13 @@ $ terraform init
 $ terraform plan
 $ terraform apply
 ```
-1. Generate a report of roles that do not have the managed policy associated with it.  This will list all roles.
+2. Generate a report of roles that do not have the managed policy associated with it.  This will list all roles.
 
 ```Bash
 $ python report_entities.py
 ```
 
-1. Now, via the AWS console, associate the IAM policy with one or more roles and re-run the report.  The list should now reflect your changes.
+3. Now, via the AWS console, associate the IAM policy with one or more roles and re-run the report.  The list should now reflect your changes.
+
+---
+> Make a note of the ARN of the policy you created during this lab.  You will need to enter this string into the Lambda functions used in the remaining labs.
