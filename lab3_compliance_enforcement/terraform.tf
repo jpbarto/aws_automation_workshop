@@ -2,6 +2,10 @@ provider "aws" {
     region = "us-east-1"
 }
 
+variable "stack_id" {
+    default = "u9"
+}
+
 data "archive_file" "lambda_zip" {
     type        = "zip"
     source_dir  = "src"
@@ -11,7 +15,7 @@ data "archive_file" "lambda_zip" {
 resource "aws_lambda_function" "enforce_compliance_function" {
   filename = "lambda.zip"
   source_code_hash = "${data.archive_file.lambda_zip.output_base64sha256}"
-  function_name = "PolicyEnforcementFunction"
+  function_name = "PolicyEnforcementFunction-${var.stack_id}"
   role = "${aws_iam_role.policy_enforcement_role.arn}"
   description = "Attach managed policies to roles upon creation."
   handler = "remediate_entities.handler"
@@ -20,7 +24,7 @@ resource "aws_lambda_function" "enforce_compliance_function" {
 }
 
 resource "aws_iam_role" "policy_enforcement_role" {
-  name = "PolicyEnforcementRole"
+  name = "PolicyEnforcementRole-${var.stack_id}"
 
   assume_role_policy = <<EOF
 {
@@ -39,7 +43,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "enforcement_policy" {
-  name       = "PolicyEnforcementPolicy"
+  name       = "PolicyEnforcementPolicy-${var.stack_id}"
   role       = "${aws_iam_role.policy_enforcement_role.name}"
   depends_on = ["aws_iam_role.policy_enforcement_role"]
 
@@ -75,7 +79,7 @@ EOF
 }
 
 resource "aws_cloudwatch_event_rule" "assign_policy" {
-  name        = "PolicyEnforcementRule"
+  name        = "PolicyEnforcementRule-${var.stack_id}"
   description = "Execute compliance rule when a role is created."
   event_pattern = <<PATTERN
 {

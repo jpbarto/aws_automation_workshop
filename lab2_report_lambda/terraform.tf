@@ -2,9 +2,19 @@ provider "aws" {
     region = "us-east-1"
 }
 
-resource "aws_sns_topic" "entity_report_topic" {
-  name = "entity-report-topic"
+variable "stack_id" {
+  default = "u9"
 }
+
+
+resource "aws_sns_topic" "entity_report_topic" {
+  name = "entity-report-topic-${var.stack_id}"
+}
+
+output "SNS Topic Name" {
+  value = "${aws_sns_topic.entity_report_topic.name}"
+}
+
 
 data "archive_file" "lambda_zip" {
     type        = "zip"
@@ -15,7 +25,7 @@ data "archive_file" "lambda_zip" {
 resource "aws_lambda_function" "entity_report_function" {
   filename = "lambda.zip"
   source_code_hash = "${data.archive_file.lambda_zip.output_base64sha256}"
-  function_name = "EntityComplianceReport"
+  function_name = "EntityComplianceReport-${var.stack_id}"
   role = "${aws_iam_role.entity_report_role.arn}"
   description = "Check that all roles have managed IAM policies applied."
   handler = "report_entities.handler"
@@ -27,9 +37,13 @@ resource "aws_lambda_function" "entity_report_function" {
       }
   }
 }
+output "Lambda Function Name" {
+  value = "${aws_lambda_function.entity_report_function.arn}"
+}
+
 
 resource "aws_iam_role" "entity_report_role" {
-  name = "EntityComplianceReportRole"
+  name = "EntityComplianceReportRole-${var.stack_id}"
 
   assume_role_policy = <<EOF
 {
@@ -48,7 +62,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "entity_report_policy" {
-  name       = "EntityComplianceReportPolicy"
+  name       = "EntityComplianceReportPolicy-${var.stack_id}"
   role       = "${aws_iam_role.entity_report_role.name}"
   depends_on = ["aws_iam_role.entity_report_role"]
 
@@ -60,10 +74,14 @@ resource "aws_iam_role_policy" "entity_report_policy" {
 }
 
 resource "aws_cloudwatch_event_rule" "run_entity_compliance_report" {
-  name        = "RunEntityComplianceReport"
+  name        = "RunEntityComplianceReport-${var.stack_id}"
   description = "Report nightly on entity compliance"
   schedule_expression = "cron(0 2 * * ? *)"
 }
+output "CloudWatch Event Rule" {
+  value = "${aws_cloudwatch_event_rule.run_entity_compliance_report.name}"
+}
+
 
 resource "aws_cloudwatch_event_target" "lambda" {
   rule      = "${aws_cloudwatch_event_rule.run_entity_compliance_report.name}"

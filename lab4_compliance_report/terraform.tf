@@ -2,6 +2,10 @@ provider "aws" {
   region = "us-east-1"
 }
 
+variable "stack_id" {
+  default = "u9"
+}
+
 data "archive_file" "lambda_zip" {
     type        = "zip"
     source_dir  = "src"
@@ -11,7 +15,7 @@ data "archive_file" "lambda_zip" {
 resource "aws_lambda_function" "policy_enforcement_function" {
   filename = "lambda.zip"
   source_code_hash = "${data.archive_file.lambda_zip.output_base64sha256}"
-  function_name = "PolicyEnforcementCheck"
+  function_name = "PolicyEnforcementCheck-${var.stack_id}"
   role = "${aws_iam_role.policy_enforcement_role.arn}"
   description = "Check that all users and roles have managed IAM policies applied."
   handler = "check_policy_enforcement.handler"
@@ -20,7 +24,7 @@ resource "aws_lambda_function" "policy_enforcement_function" {
 }
 
 resource "aws_iam_role" "policy_enforcement_role" {
-  name = "PolicyEnforcementRole"
+  name = "PolicyEnforcementRole-${var.stack_id}"
 
   assume_role_policy = <<EOF
 {
@@ -39,7 +43,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "policy_enforcement_policy" {
-  name       = "PolicyEnforcementPolicy"
+  name       = "PolicyEnforcementPolicy-${var.stack_id}"
   role       = "${aws_iam_role.policy_enforcement_role.name}"
   depends_on = ["aws_iam_role.policy_enforcement_role"]
 
@@ -81,7 +85,7 @@ EOF
 
 
 resource "aws_config_config_rule" "enforce_policy_rule" {
-  name = "EnforcePolicyRule"
+  name = "EnforcePolicyRule-${var.stack_id}"
 
   source = {
     owner             = "CUSTOM_LAMBDA"
