@@ -56,7 +56,7 @@ resource "aws_iam_role_policy" "entity_report_policy" {
     create_before_destroy = true
   }
 
-  policy = "${file("report_policy.json")}"
+  policy = "${file("reporter_policy.json")}"
 }
 
 resource "aws_cloudwatch_event_rule" "run_entity_compliance_report" {
