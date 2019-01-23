@@ -1,5 +1,6 @@
 # Lab 2: Create a reporting Lambda
 
+## Overview
 Having a script to produce a report of entities which are non-compliant is great but requires manually running the report regularly.  Instead lets have AWS periodically execute this report for us and issue an email nightly.  To do this we will use a CloudWatch scheduled event to execute an AWS Lambda function and send the results to an SNS topic.  
 
 To do this we will create the scheduled event using Cron notation, modify the Python code from the previous lab to become a Lambda function, and add an SNS notification so we can subscribe to the report.

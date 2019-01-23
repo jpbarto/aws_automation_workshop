@@ -1,9 +1,9 @@
 provider "aws" {
-    region = "eu-west-1"
+    region = "us-east-1"
 }
 
 variable "stack_id" {
-    default = "u9"
+    default = "userA"
 }
 
 data "archive_file" "lambda_zip" {
@@ -22,6 +22,11 @@ resource "aws_lambda_function" "enforce_compliance_function" {
   runtime = "python3.6"
   timeout = 60
 }
+
+output "Lambda Function ARN" {
+  value = "${aws_lambda_function.enforce_compliance_function.arn}"
+}
+
 
 resource "aws_iam_role" "policy_enforcement_role" {
   name = "PolicyEnforcementRole-${var.stack_id}"
@@ -59,6 +64,11 @@ resource "aws_cloudwatch_event_rule" "assign_policy" {
   description = "Execute compliance rule when a role is created."
   event_pattern = "${file("event_rule_pattern.json")}"
 }
+
+output "CloudWatch Rule Name" {
+  value = "${aws_cloudwatch_event_rule.assign_policy.name}"
+}
+
 
 resource "aws_cloudwatch_event_target" "lambda" {
   rule      = "${aws_cloudwatch_event_rule.assign_policy.name}"
