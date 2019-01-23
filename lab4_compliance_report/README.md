@@ -44,3 +44,17 @@ policy_arn = 'arn:aws:iam::012345678901:policy/ManagedPolicy'
 1. Click `Save`
 
 ### Using Terraform
+#### Push resources using Terraform
+1. Edit the Lambda function script at [src/check_policy_enforcement.py](src/check_policy_enforcement.py) and paste the ARN of your managed policy into the Python code which defines the `policy_arn` variable:
+```Python
+policy_arn = 'arn:aws:iam::012345678901:policy/ManagedPolicy'
+```
+2. Now push the infrastructure for this lab into the AWS account using the following Terraform commands:
+```bash
+$ terraform init
+$ terraform plan
+$ terraform apply
+```
+
+## View Config Results
+After a minute or so your Lambda function should have completed evaluation of the enviornment and a listing will be provided in Config of all Compliant and non-compliant resources.  
