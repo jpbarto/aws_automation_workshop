@@ -1,4 +1,4 @@
-# Automation lab
+# AWS Automation Workshop
 
 The purpose of this collection of lab material is to walk readers through creating a Lambda function and having it execute periodically using CloudWatch Scheduled Events, respond in real time to CloudWatch Events, and later to be invoked by AWS Config.  In addition the manual step-by-step guidance, Terraform scripts are also provided to demonstrate how to use infrastructure as code.
 
