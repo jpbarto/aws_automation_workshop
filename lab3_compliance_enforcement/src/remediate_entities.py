@@ -1,6 +1,6 @@
 import boto3
 
-policy_arn = 'arn:aws:iam::776347453069:policy/ManagedPolicy'
+policy_arn = 'arn:aws:iam::012345678901:policy/ManagedPolicy'
 
 iam = boto3.client ('iam')
 

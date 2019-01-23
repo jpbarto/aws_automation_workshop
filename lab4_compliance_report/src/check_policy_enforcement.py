@@ -10,7 +10,7 @@ COMPLIANCE_STATES = {
     'NON_COMPLIANT': 'NON_COMPLIANT',
     'NOT_APPLICABLE': 'NOT_APPLICABLE'
     }
-policy_arn = 'arn:aws:iam::776347453069:policy/ManagedPolicy'
+policy_arn = 'arn:aws:iam::012345678901:policy/ManagedPolicy'
 
 # Checks whether the invoking event is ScheduledNotification
 def is_scheduled (event):
