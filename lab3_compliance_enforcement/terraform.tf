@@ -51,54 +51,13 @@ resource "aws_iam_role_policy" "enforcement_policy" {
     create_before_destroy = true
   }
 
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "iam:ListAttachedRolePolicies",
-                "iam:AttachRolePolicy"
-            ],
-            "Resource": "arn:aws:iam::*:role/*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "logs:CreateLogStream",
-                "iam:ListRoles",
-                "logs:CreateLogGroup",
-                "logs:PutLogEvents"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
-EOF
+  policy = "${file("enforcer_policy.json")}"
 }
 
 resource "aws_cloudwatch_event_rule" "assign_policy" {
   name        = "PolicyEnforcementRule-${var.stack_id}"
   description = "Execute compliance rule when a role is created."
-  event_pattern = <<PATTERN
-{
-  "source": [
-    "aws.iam"
-  ],
-  "detail-type": [
-    "AWS API Call via CloudTrail"
-  ],
-  "detail": {
-    "eventSource": [
-      "iam.amazonaws.com"
-    ],
-    "eventName": [
-      "CreateRole"
-    ]
-  }
-}
-PATTERN
+  event_pattern = "${file("event_rule_pattern.json")}"
 }
 
 resource "aws_cloudwatch_event_target" "lambda" {
