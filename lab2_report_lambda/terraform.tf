@@ -6,7 +6,6 @@ variable "stack_id" {
   default = "userA"
 }
 
-
 resource "aws_sns_topic" "entity_report_topic" {
   name = "entity-report-topic-${var.stack_id}"
 }
