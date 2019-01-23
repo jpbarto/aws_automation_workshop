@@ -69,7 +69,6 @@ output "CloudWatch Rule Name" {
   value = "${aws_cloudwatch_event_rule.assign_policy.name}"
 }
 
-
 resource "aws_cloudwatch_event_target" "lambda" {
   rule      = "${aws_cloudwatch_event_rule.assign_policy.name}"
   arn       = "${aws_lambda_function.enforce_compliance_function.arn}"
