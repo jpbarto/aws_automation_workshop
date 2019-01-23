@@ -7,26 +7,25 @@ variable "stack_id" {
 }
 
 data "archive_file" "lambda_zip" {
-    type        = "zip"
-    source_dir  = "src"
-    output_path = "lambda.zip"
+  type        = "zip"
+  source_dir  = "src"
+  output_path = "lambda.zip"
 }
 
 resource "aws_lambda_function" "compliance_function" {
-  filename = "lambda.zip"
+  filename         = "lambda.zip"
   source_code_hash = "${data.archive_file.lambda_zip.output_base64sha256}"
-  function_name = "ComplianceCheck-${var.stack_id}"
-  role = "${aws_iam_role.compliance_rule_role.arn}"
-  description = "Check that all users and roles have managed IAM policies applied."
-  handler = "check_policy_enforcement.handler"
-  runtime = "python3.6"
-  timeout = 60
+  function_name    = "ComplianceCheck-${var.stack_id}"
+  role             = "${aws_iam_role.compliance_rule_role.arn}"
+  description      = "Check that all users and roles have managed IAM policies applied."
+  handler          = "check_policy_enforcement.handler"
+  runtime          = "python3.6"
+  timeout          = 60
 }
 
 output "Compliance Function" {
   value = "${aws_lambda_function.compliance_function.function_name}"
 }
-
 
 resource "aws_iam_role" "compliance_rule_role" {
   name = "ComplianceRuleRole-${var.stack_id}"
@@ -58,7 +57,6 @@ resource "aws_iam_role_policy" "compliance_rule_policy" {
 
   policy = "${file("compliance_rule_policy.json")}"
 }
-
 
 resource "aws_config_config_rule" "compliance_rule" {
   name = "ComplianceRule-${var.stack_id}"

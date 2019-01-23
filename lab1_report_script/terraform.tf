@@ -1,5 +1,5 @@
 provider "aws" {
-    region = "eu-west-1"
+  region = "eu-west-1"
 }
 
 variable "stack_id" {
@@ -7,7 +7,7 @@ variable "stack_id" {
 }
 
 resource "aws_iam_policy" "region_restriction_policy" {
-  name       = "RegionRestrictionPolicy-${var.stack_id}"
+  name = "RegionRestrictionPolicy-${var.stack_id}"
 
   lifecycle {
     create_before_destroy = true
