@@ -59,7 +59,6 @@ policy_arn = 'arn:aws:iam::012345678901:policy/ManagedPolicy'
 1. Click `Create rule`
 
 ### Using Terraform
-1. Edit the Lambda function script to 
 1. Edit the Lambda function script at [src/report_entities.py](src/report_entities.py) and paste the ARN of your managed policy into the Python code which defines the `policy_arn` variable:
 ```Python
 policy_arn = 'arn:aws:iam::012345678901:policy/ManagedPolicy'

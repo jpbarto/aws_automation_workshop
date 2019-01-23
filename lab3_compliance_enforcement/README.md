@@ -30,7 +30,7 @@ Getting a report after as much as 24 hours after a role has been created is only
 ```python
 policy_arn = 'arn:aws:iam::012345678901:policy/ManagedPolicy'
 ```
-1. Set the `Handler` field to `lambda_function.handler`
+9. Set the `Handler` field to `lambda_function.handler`
 1. Set the function `Timeout` to 45 seconds
 1. Click `Save`
 #### Configure CloudWatch Events
@@ -44,6 +44,17 @@ policy_arn = 'arn:aws:iam::012345678901:policy/ManagedPolicy'
 1. From the `Function` drop down select your Lambda function and click `Configure details`
 1. Give your rule a unique name such as 'EnforcementRule-userA' and click `Create rule`
 
+### Using Terraform
+1. Edit the Lambda function script at [src/remediate_entities.py](src/remediate_entities.py) and paste the ARN of your managed policy into the Python code which defines the `policy_arn` variable:
+```Python
+policy_arn = 'arn:aws:iam::012345678901:policy/ManagedPolicy'
+```
+2. Now push the infrastructure for this lab into the AWS account using the following Terraform commands:
+```bash
+$ terraform init
+$ terraform plan
+$ terraform apply
+```
 
 ## Test your rule
 1. From the [IAM console](https://console.aws.amazon.com/iam/home) click `Roles`
