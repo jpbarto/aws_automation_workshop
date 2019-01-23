@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 variable "stack_id" {
-  default = "u9"
+  default = "userA"
 }
 
 resource "aws_iam_policy" "region_restriction_policy" {

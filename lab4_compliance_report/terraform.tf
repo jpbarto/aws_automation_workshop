@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 variable "stack_id" {
-  default = "u9"
+  default = "userA"
 }
 
 data "archive_file" "lambda_zip" {
