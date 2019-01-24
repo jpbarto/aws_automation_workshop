@@ -38,7 +38,7 @@ resource "aws_lambda_function" "entity_report_function" {
 }
 
 output "Lambda Function Name" {
-  value = "${aws_lambda_function.entity_report_function.arn}"
+  value = "${aws_lambda_function.entity_report_function.function_name}"
 }
 
 resource "aws_iam_role" "entity_report_role" {
