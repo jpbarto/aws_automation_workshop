@@ -30,13 +30,21 @@ As a final wrap up a Terraform template is maintained at each stage to deploy th
 
 ## Getting started (Only needed to have access to a Python interpreter and Terraform)
 1. To get started sign into the AWS console and visit the [Cloud9 console](https://eu-west-1.console.aws.amazon.com/cloud9/home?region=eu-west-1#)
-1. Click `Launch IDE` from the console.
-1. When the IDE opens click in the Terminal on the lower half of the IDE.  Execute the following:
+1. Click `Launch IDE` from the console
+1. When the IDE opens click in the Terminal on the lower half of the IDE and clone this GitHub repository:
+```bash
+$ git clone https://github.com/jpbarto/aws_automation_workshop.git
+```
+### If using Terraform...
+1. In the Terminal on the lower half of the IDE execute the following to install Terraform:
 ```bash
 $ wget https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip
 $ unzip terraform_0.11.11_linux_amd64.zip 
 $ sudo mv terraform /usr/local/bin
 $ terraform -h
 ```
+2. Disable AWS managed credentials in the IDE as these are incompatible with Terraform. From the `AWS Cloud9` menu select `Preferences`.
+1. Click `AWS Settings` and toggle `AWS managed temporary credentials`.
+1. Associate an instance profile with your IDE or configure the environment with your access keys to continue using Terraform
 
-Now move on to [Lab 1](lab1_report_script).
+## Now move on to [Lab 1](lab1_report_script).
