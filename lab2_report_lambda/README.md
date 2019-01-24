@@ -75,12 +75,13 @@ $ terraform apply
 1. From the `Protocol` drop down select `Email`
 1. Enter your email address as the value for `Endpoint` and click `Create subscription`
 1. After a moment you should receive a confirmation email, open the email and click the `Confirm subscription` link.  This email address will now receive messages published to the SNS topic
+
 #### Test the Lambda function
 1. Go to the [Lambda console](https://eu-west-1.console.aws.amazon.com/lambda/home)
 1. Select the Lambda function that was created for you by Terraform
-1. Test the Lambda function by clicking `Test`
-1. You will be asked to create an event to send to the Lambda function, accept the default, give it a name like `SimpleEvent` and click `Create`
-1. Click the `Test` button again to execute the Lambda function with the new test event
+1. To test the function you will need to create a test event.  From the drop down showing `Select a test event` click `Configure test events`
+1. Give the default event a name and click `Create`
+1. Click the `Test` button to execute the Lambda function with the new test event
 > You should see the output of your function in the Lambda console.  If executed successfully you should also have an email in your inbox after a short period with a copy of the report generated.
 
 ## Summary
