@@ -11,7 +11,7 @@ In this lab you will create an IAM policy using Terraform.  Then you will run a 
 1. Click `Create policy`
 1. Select the `JSON` tab and enter the contents of the [managed_policy.json](managed_policy.json) file
 1. Click `Review policy`
-1. Give the policy a unique name, such as 'user9-managed-policy'
+1. Give the policy a unique name, such as 'ManagedPolicy-user9'
 1. Click `Create policy`
 1. Follow the link to the policy in the next screen and take note of the Policy ARN of the policy.
 1. Paste the ARN value into the [report_entities.py](report_entites.py) script at the line:
@@ -34,7 +34,11 @@ $ terraform init
 $ terraform plan
 $ terraform apply
 ```
-2. Generate a report of roles that do not have the managed policy associated with it.  This will list all roles.
+2. Paste the ARN value into the [report_entities.py](report_entites.py) script at the line:
+```Python
+policy_arn = 'arn:aws:iam::012345678901:policy/YOUR-POLICY-NAME'
+```
+3. Generate a report of roles that do not have the managed policy associated with it.  This will list all roles.
 
 ```Bash
 $ python report_entities.py
